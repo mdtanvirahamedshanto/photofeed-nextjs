@@ -1,7 +1,12 @@
+import { getDictionary } from "@/app/[lang]/disctionaries";
 import Follow from "@/public/assets/icons/follow.svg";
 import Image from "next/image";
 
-const PhotoDetails = ({ dictionary, photo }) => {
+const PhotoDetails = async ({ id, lang }) => {
+  const dictionary = await getDictionary(lang);
+
+  const response = await fetch(`http://localhost:3000/api/photos/${id}`);
+  const photo = await response.json();
   return (
     <div className="container my-4 lg:my-8">
       <div className="grid grid-cols-12 gap-4 2xl:gap-10 ">
@@ -10,28 +15,28 @@ const PhotoDetails = ({ dictionary, photo }) => {
             height={500}
             width={700}
             className="max-w-full h-full max-h-[70vh] mx-auto"
-            src={photo.url}
+            src={photo?.url}
             alt=""
           />
         </div>
 
         <div className="p-6 border rounded-xl col-span-12 lg:col-span-4  ">
-          <h2 className="text-lg lg:text-2xl font-bold mb-2">{photo.title}</h2>
+          <h2 className="text-lg lg:text-2xl font-bold mb-2">{photo?.title}</h2>
           <div className="text-xs lg:text-sm text-black/60 mb-6">
             {photo?.tags?.map((tag) => `#${tag} `)}
           </div>
           <div className="space-y-2.5 text-black/80 text-xs lg:text-sm">
             <div className="flex justify-between">
-              <span>{dictionary.views}</span>
+              <span>{dictionary?.views}</span>
               <span className="font-bold">{photo?.views}</span>
             </div>
             <div className="flex justify-between">
-              <span>{dictionary.share}</span>
+              <span>{dictionary?.share}</span>
               <span className="font-bold">{photo?.share}</span>
             </div>
 
             <div className="flex justify-between">
-              <span>{dictionary.uploadedOn}</span>
+              <span>{dictionary?.uploadedOn}</span>
               <span className="font-bold">{photo?.uploaded}</span>
             </div>
           </div>
