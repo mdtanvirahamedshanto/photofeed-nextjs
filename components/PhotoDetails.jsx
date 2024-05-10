@@ -5,7 +5,9 @@ import Image from "next/image";
 const PhotoDetails = async ({ id, lang }) => {
   const dictionary = await getDictionary(lang);
 
-  const response = await fetch(`http://localhost:3000/api/photos/${id}`);
+  const response = await fetch(
+    `https://photofeed-nextjs.vercel.app//api/photos/${id}`
+  );
   const photo = await response.json();
   return (
     <div className="container my-4 lg:my-8">
